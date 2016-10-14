@@ -1,10 +1,7 @@
 package io.vertx.codetrans.lang.scala;
 
 import com.sun.source.tree.LambdaExpressionTree;
-import io.vertx.codegen.type.ApiTypeInfo;
-import io.vertx.codegen.type.ClassTypeInfo;
-import io.vertx.codegen.type.EnumTypeInfo;
-import io.vertx.codegen.type.TypeInfo;
+import io.vertx.codegen.type.*;
 import io.vertx.codetrans.CodeBuilder;
 import io.vertx.codetrans.CodeModel;
 import io.vertx.codetrans.CodeWriter;
@@ -55,6 +52,8 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderNew(ExpressionModel expression, TypeInfo type, List<ExpressionModel> argumentModels) {
+    if(ClassKind.API != type.getKind() && ClassKind.DATA_OBJECT != type.getKind())
+      append("new ");
     expression.render(this);
     append('(');
     IntStream.range(0, argumentModels.size()).forEach(i -> {
@@ -219,9 +218,12 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderMapForEach(ExpressionModel map, String keyName, TypeInfo keyType, String valueName, TypeInfo valueType, LambdaExpressionTree.BodyKind bodyKind, CodeModel block){
     map.render(this);
-    append(".foreach(");
+    append(".foreach{\n");
+    indent();
+    append("case ");
+    unindent();
     renderLambda(bodyKind, Arrays.asList(keyType, valueType), Arrays.asList(keyName, valueName), block);
-    append(")");
+    append("}");
   }
 
   @Override
@@ -237,7 +239,7 @@ public class ScalaCodeWriter extends CodeWriter {
     unindent();
     append("} catch {\n");
     indent();
-    append("e:Exception => ");
+    append("case e:Exception => ");
     catchBlock.render(this);
     unindent();
     append("}\n");
@@ -250,7 +252,7 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderJsonArray(JsonArrayLiteralModel jsonArray){
-    append("todo-renderJsonArray");
+    append("new io.vertx.core.json.JsonArray()");
   }
 
   public void renderDataObject(DataObjectLiteralModel model){
@@ -283,8 +285,9 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderListAdd(ExpressionModel list, ExpressionModel value){
     list.render(this);
-    append(" += ");
+    append(" :::= List(");
     value.render(this);
+    append(")");
   }
 
   @Override
@@ -315,7 +318,7 @@ public class ScalaCodeWriter extends CodeWriter {
   public void renderInstanceOf(ExpressionModel expression, TypeElement type){
     expression.render(this);
     append(".isInstanceOf[");
-    append(type.getSimpleName());
+    append(type.getQualifiedName());
     append("]");
   }
 
@@ -343,8 +346,8 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderMethodInvocation(ExpressionModel expression, TypeInfo receiverType, MethodSignature method, TypeInfo returnType, List<ExpressionModel> argumentModels, List<TypeInfo> argumentTypes){
-    String lbracket = (method.getName() == "onComplete") ? "{" : "(";
-    String rbracket = (method.getName() == "onComplete") ? "}" : ")";
+    String lbracket = (method.getName() == "onComplete") ? "" : "(";
+    String rbracket = (method.getName() == "onComplete") ? "" : ")";
     if(method.getName() != "onComplete")
       expression.render(this);
     append('.');

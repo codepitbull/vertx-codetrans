@@ -3,6 +3,7 @@ package io.vertx.codetrans;
 import io.vertx.codetrans.lang.groovy.GroovyLang;
 import io.vertx.codetrans.lang.js.JavaScriptLang;
 import io.vertx.codetrans.lang.ruby.RubyLang;
+import io.vertx.codetrans.lang.scala.ScalaLang;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -49,6 +50,9 @@ public class VariableTest extends ConversionTestBase {
     Assert.assertTrue(o instanceof jdk.nashorn.internal.runtime.Undefined);
     o = null;
     run(new RubyLang(), "variable/Variable", "uninitializedMemberExpression");
+    Assert.assertNull(o);
+    o = null;
+    run(new ScalaLang(), "variable/Variable", "uninitializedMemberExpression");
     Assert.assertNull(o);
     o = null;
   }

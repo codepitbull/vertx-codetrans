@@ -16,6 +16,7 @@ import java.util.Map;
 public class CollectionTest extends ConversionTestBase {
 
   public static Object o;
+  public static Map map;
   public static Map sharedMap;
 
   @Test
@@ -58,7 +59,7 @@ public class CollectionTest extends ConversionTestBase {
   @Test
   public void testMapNew() {
     runAll("collection/MapNew", "newMap", () -> {
-      assertEquals(Collections.emptyMap(), o);
+      assertEquals(Collections.emptyMap(), map);
       o = null;
     });
   }

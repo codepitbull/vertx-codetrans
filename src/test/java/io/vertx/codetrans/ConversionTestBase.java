@@ -3,6 +3,7 @@ package io.vertx.codetrans;
 import io.vertx.codetrans.lang.groovy.GroovyLang;
 import io.vertx.codetrans.lang.js.JavaScriptLang;
 import io.vertx.codetrans.lang.ruby.RubyLang;
+import io.vertx.codetrans.lang.scala.ScalaLang;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public abstract class ConversionTestBase {
 
-  public static Lang[] langs() { return new Lang[] { new GroovyLang(), new JavaScriptLang(), new RubyLang() }; }
+  public static Lang[] langs() { return new Lang[] { new GroovyLang(), new JavaScriptLang(), new RubyLang(), new ScalaLang() }; }
 
   public void runJavaScript(String path) {
     run(new JavaScriptLang(), path);
@@ -42,6 +43,14 @@ public abstract class ConversionTestBase {
 
   public void runRuby(String path, String method) {
     run(new RubyLang(), path, method);
+  }
+
+  public void runScala(String path) {
+    run(new ScalaLang(), path);
+  }
+
+  public void runScala(String path, String method) {
+    run(new ScalaLang(), path, method);
   }
 
 

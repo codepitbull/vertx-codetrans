@@ -19,7 +19,8 @@ public class ThrowableTest extends ConversionTestBase {
 
   public static Throwable t;
   public static CustomException custom;
-  public static Object test;
+  public static Number test;
+  public static Boolean bool;
 
   @Test
   public void testThrowRuntimeExceptionNoArg() throws Exception {
@@ -67,7 +68,7 @@ public class ThrowableTest extends ConversionTestBase {
   public void testInstanceOf() throws Exception {
     t = new BindException();
     runAll("throwable/Throwable", "instanceOf", () -> {
-      assertEquals(Boolean.TRUE, test);
+      assertEquals(Boolean.TRUE, bool);
       test = null;
     });
   }
@@ -76,7 +77,7 @@ public class ThrowableTest extends ConversionTestBase {
   public void testField() throws Exception {
     custom = new CustomException(5);
     runAll("throwable/Throwable", "field", () -> {
-      assertEquals(5, ((Number)test).intValue());
+      assertEquals(5, test.intValue());
       test = null;
     });
   }

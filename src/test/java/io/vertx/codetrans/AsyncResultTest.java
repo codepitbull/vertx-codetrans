@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
+//TOD: I have no idea how to make these work for scala ....
 public class AsyncResultTest extends ConversionTestBase {
 
   public static void callbackWithFailure(Handler<AsyncResult> callback) {

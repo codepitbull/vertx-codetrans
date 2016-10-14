@@ -104,6 +104,7 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+  //TODO: fails due to lack of typeinfo, I need to know the method called in the Java-world
   @Test
   public void testJsonObjectGetObjectFromIdentifier() {
     runAll("json/JsObject", "getObjectFromIdentifier", () -> {
@@ -122,6 +123,7 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+  //TODO: this should work .... ffffffff
   @Test
   public void testGetJsonArray() {
     JsonArray expected = new JsonArray().add(4).add(5).add(6);
@@ -145,6 +147,7 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+  //TODO: Fails due to lack of type-info
   @Test
   public void testJsonObjectGetArrayFromIdentifier() {
     runAll("json/JsObject", "getArrayFromIdentifier", () -> {
@@ -269,6 +272,7 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+  //TODO: fails because I have to use getValue instead of the correct getter method from Java
   @Test
   public void testJsonArrayGetObject() {
     JsonObject expected = new JsonObject().put("foo", "bar");
@@ -278,6 +282,8 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+
+  //TODO: not working because of lacking method information getJsonArray => getValue
   @Test
   public void testJsonArrayGetArray() {
     JsonArray expected = new JsonArray().add(1).add(2).add(3);
@@ -327,6 +333,8 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+  //TODO: fails because I don't know the method used for encoding => see renderJsonObjectToString
+
   @Test
   public void testJsonArrayEncodePrettily() {
     runAll("json/JsArray", "encodePrettily", () -> {
@@ -335,6 +343,8 @@ public class JsonTest extends ConversionTestBase {
     });
   }
 
+
+  //TODO: fails because I don't know the method used for encoding => see renderJsonObjectToString
   @Test
   public void testJsonArrayEncode() {
     runAll("json/JsArray", "encode", () -> {

@@ -1,5 +1,5 @@
 
-package io.vertx.groovy.support
+package io.vertx.scala.support
 
 import io.vertx.core.json.JsonArray
 import io.vertx.core.json.JsonObject
@@ -10,12 +10,12 @@ import scala.collection.JavaConverters._
  */
 object JsonConverter {
 
-  def toJsonObject(obj: Map[String, Object]) = {
-    new JsonObject(obj.asJava)
+  def toJsonObject(jsonObject: JsonObject) = {
+    jsonObject
   }
 
-  def toJsonArray(arr: List[Object]) = {
-    new JsonArray(arr.asJava)
+  def toJsonArray(arr: JsonArray) = {
+    arr
   }
 
 //  def fromJsonObject(obj: JsonObject) = {
@@ -32,17 +32,7 @@ object JsonConverter {
 //    return m;
 //  }
 //
-//  def fromJsonArray(arr: JsonArray) = {
-//    def m = [];
-//    arr.forEach { value ->
-//      if (value instanceof JsonObject) {
-//        m << fromJsonObject(value)
-//      } else if (value instanceof JsonArray) {
-//        m << fromJsonArray(value)
-//      } else {
-//        m << value
-//      }
-//    }
-//    return m;
-//  }
+  def fromJsonArray(arr: JsonArray) = {
+    arr
+  }
 }

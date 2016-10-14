@@ -85,6 +85,8 @@ public class ControlTest extends ConversionTestBase {
     collected.add(s);
   }
 
+
+  //TODO: fails because ScalCodeBuilder.enhancedForLoop doesn't give me the required type info so I can incldue implicit conversions
   @Test
   public void testForEach() throws Exception {
     runAll("control/ForEach", () -> {
@@ -109,6 +111,7 @@ public class ControlTest extends ConversionTestBase {
     });
   }
 
+  //TODO: fails because MethodSignature doesn't tell me the return-type
   @Test
   public void testReturnVoid() throws Exception {
     o = null;

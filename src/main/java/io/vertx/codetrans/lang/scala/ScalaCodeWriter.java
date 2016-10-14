@@ -131,8 +131,9 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderJsonObjectMemberSelect(ExpressionModel expression, String name){
     expression.render(this);
-    append('.');
+    append(".getValue(\"");
     append(name);
+    append("\")");
   }
 
   @Override
@@ -148,10 +149,14 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderJsonObjectAssign(ExpressionModel expression, String name, ExpressionModel value){
     expression.render(this);
-    append(".put(");
+    append(".put(\"");
     append(name);
-    append(", ");
-    value.render(this);
+    append("\", ");
+    if(value instanceof NullLiteralModel) {
+      append("null.asInstanceOf[String]");
+    } else {
+      value.render(this);
+    }
     append(")");
   }
 
@@ -229,7 +234,24 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderJsonObject(JsonObjectLiteralModel jsonObject){
-    append("todo-renderJsonObject");
+    append("new io.vertx.core.json.JsonObject()");
+    jsonObject.getMembers().forEach(m -> {
+      append(".put(\"");
+      append(m.getName());
+      append("\", ");
+      renderMembers(m);
+      append(")");
+    });
+  }
+
+  private void renderMembers(Member m) {
+    if(m instanceof Member.Single) {
+      ((Member.Single)m).getValue().render(this);
+    } else if(m instanceof Member.Sequence) {
+      ((Member.Sequence)m).getValues().forEach(v -> v.render(this));
+    } else if(m instanceof Member.Entries) {
+      ((Member.Entries)m).entries().forEach(e -> renderMembers(e));
+    }
   }
 
   @Override
@@ -248,14 +270,48 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderJsonObjectToString(ExpressionModel expression){
-    append("todo-renderJsonObjectToString");
+    expression.render(this);
+    append(".encode()");
+  }
+
+
+  @Override
+  public void renderJsonArrayAdd(ExpressionModel expression, ExpressionModel value) {
+    expression.render(this);
+    if(value instanceof NullLiteralModel) {
+      append(".addNull()");
+    } else {
+      append(".add(");
+      value.render(this);
+      append(")");
+    }
+  }
+
+  @Override
+  public void renderJsonArrayToString(ExpressionModel expression){
+    expression.render(this);
+    append(".encodePrettily()");
+  }
+
+  @Override
+  public void renderJsonArrayGet(ExpressionModel expression, ExpressionModel index) {
+    expression.render(this);
+    append(".getValue(");
+    index.render(this);
+    append(")");
   }
 
   @Override
   public void renderJsonArray(JsonArrayLiteralModel jsonArray){
     append("new io.vertx.core.json.JsonArray()");
+    jsonArray.getValues().forEach(v -> {
+      append(".add(");
+      v.render(this);
+      append(")");
+    });
   }
 
+  @Override
   public void renderDataObject(DataObjectLiteralModel model){
     append(model.getType().getSimpleName()+"()");
     boolean dataModelHasMembers = model.getMembers().iterator().hasNext();
@@ -300,11 +356,6 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderThis(){
     append("this");
-  }
-
-  @Override
-  public void renderJsonArrayToString(ExpressionModel expression){
-    append("todo-renderJsonArrayToString");
   }
 
   @Override

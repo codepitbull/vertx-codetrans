@@ -14,6 +14,7 @@ import java.util.Map;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
+//TODO: DataObject tests are impossible because I don't have access to the type info, apiType in CodeBuilder should receive them!
 public class DataObjectTest extends ConversionTestBase {
 
   public static Object o;
@@ -29,6 +30,9 @@ public class DataObjectTest extends ConversionTestBase {
     o = null;
     runRuby("dataobject/DataObject", "empty");
     Assert.assertEquals(new JsonObject(), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "empty");
+    Assert.assertEquals(new JsonObject(), unwrapJsonObject((Map<String, Object>) o));
   }
 
   @Test
@@ -41,6 +45,9 @@ public class DataObjectTest extends ConversionTestBase {
     Assert.assertEquals(new JsonObject().put("host", "localhost").put("port", 8080), unwrapJsonObject((Map<String, Object>) o));
     o = null;
     runRuby("dataobject/DataObject", "setFromConstructor");
+    Assert.assertEquals(new JsonObject().put("host", "localhost").put("port", 8080), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "setFromConstructor");
     Assert.assertEquals(new JsonObject().put("host", "localhost").put("port", 8080), unwrapJsonObject((Map<String, Object>) o));
   }
 
@@ -55,6 +62,9 @@ public class DataObjectTest extends ConversionTestBase {
     o = null;
     runRuby("dataobject/DataObject", "setFromIdentifier");
     Assert.assertEquals(new JsonObject().put("host", "localhost").put("port", 8080), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "setFromIdentifier");
+    Assert.assertEquals(new JsonObject().put("host", "localhost").put("port", 8080), unwrapJsonObject((Map<String, Object>) o));
   }
 
   @Test
@@ -68,6 +78,9 @@ public class DataObjectTest extends ConversionTestBase {
     o = null;
     runRuby("dataobject/DataObject", "getFromIdentifier");
     Assert.assertEquals("localhost", o);
+    o = null;
+    runScala("dataobject/DataObject", "getFromIdentifier");
+    Assert.assertEquals("localhost", o);
   }
 
   @Test
@@ -80,6 +93,9 @@ public class DataObjectTest extends ConversionTestBase {
     Assert.assertEquals(new JsonObject().put("keyStoreOptions", new JsonObject().put("path", "/mystore.jks").put("password", "secret")), unwrapJsonObject((Map<String, Object>) o));
     o = null;
     runRuby("dataobject/DataObject", "nested");
+    Assert.assertEquals(new JsonObject().put("keyStoreOptions", new JsonObject().put("path", "/mystore.jks").put("password", "secret")), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "nested");
     Assert.assertEquals(new JsonObject().put("keyStoreOptions", new JsonObject().put("path", "/mystore.jks").put("password", "secret")), unwrapJsonObject((Map<String, Object>) o));
   }
 
@@ -101,6 +117,13 @@ public class DataObjectTest extends ConversionTestBase {
     Assert.assertEquals(expected, actual.getEnabledCipherSuites());
     o = null;
     runRuby("dataobject/DataObject", "addToList");
+    actual = new HttpServerOptions(unwrapJsonObject((Map<String, Object>) o));
+    expected = new HashSet<>();
+    expected.add("foo");
+    expected.add("bar");
+    Assert.assertEquals(expected, actual.getEnabledCipherSuites());
+    o = null;
+    runScala("dataobject/DataObject", "addToList");
     actual = new HttpServerOptions(unwrapJsonObject((Map<String, Object>) o));
     expected = new HashSet<>();
     expected.add("foo");
@@ -131,6 +154,12 @@ public class DataObjectTest extends ConversionTestBase {
     Assert.assertEquals(expectedKeys, actual.getHeaders().names());
     Assert.assertEquals("foo_value", actual.getHeaders().get("foo"));
     Assert.assertEquals("bar_value", actual.getHeaders().get("bar"));
+    o = null;
+    runScala("dataobject/DataObject", "addToMap");
+    actual = new DeliveryOptions(unwrapJsonObject((Map<String, Object>) o));
+    Assert.assertEquals(expectedKeys, actual.getHeaders().names());
+    Assert.assertEquals("foo_value", actual.getHeaders().get("foo"));
+    Assert.assertEquals("bar_value", actual.getHeaders().get("bar"));
   }
 
   @Test
@@ -144,6 +173,9 @@ public class DataObjectTest extends ConversionTestBase {
     o = null;
     runRuby("dataobject/DataObject", "enumValueFromIdentifier");
     Assert.assertEquals(new JsonObject().put("protocolVersion", "HTTP_2"), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "enumValueFromIdentifier");
+    Assert.assertEquals(new JsonObject().put("protocolVersion", "HTTP_2"), unwrapJsonObject((Map<String, Object>) o));
   }
 
   @Test
@@ -156,6 +188,9 @@ public class DataObjectTest extends ConversionTestBase {
     Assert.assertEquals(new JsonObject().put("protocolVersion", "HTTP_2"), unwrapJsonObject((Map<String, Object>) o));
     o = null;
     runRuby("dataobject/DataObject", "enumValueFromConstructor");
+    Assert.assertEquals(new JsonObject().put("protocolVersion", "HTTP_2"), unwrapJsonObject((Map<String, Object>) o));
+    o = null;
+    runScala("dataobject/DataObject", "enumValueFromConstructor");
     Assert.assertEquals(new JsonObject().put("protocolVersion", "HTTP_2"), unwrapJsonObject((Map<String, Object>) o));
   }
 }

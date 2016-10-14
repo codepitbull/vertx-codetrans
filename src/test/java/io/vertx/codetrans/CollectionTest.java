@@ -13,6 +13,8 @@ import java.util.Map;
 /**
  * @author <a href="mailto:julien@julienviet.com">Julien Viet</a>
  */
+
+//TODO tests break because CodeWriter.renderNewMap and CodeWriter.renderNewList lack type-infos
 public class CollectionTest extends ConversionTestBase {
 
   public static Object o;
@@ -54,6 +56,9 @@ public class CollectionTest extends ConversionTestBase {
     sharedMap = new HashMap<>();
     runRuby("collection/MapPut", "put");
     assertEquals(Collections.singletonMap("foo", "foo_value"), sharedMap);
+    sharedMap = new HashMap<>();
+    runScala("collection/MapPut", "put");
+    assertEquals(Collections.singletonMap("foo", "foo_value"), sharedMap);
   }
 
   @Test
@@ -76,6 +81,9 @@ public class CollectionTest extends ConversionTestBase {
     runRuby("collection/ListApi", "newArrayList");
     assertEquals(Collections.emptyList(), o);
     o = null;
+    runScala("collection/ListApi", "newArrayList");
+    assertEquals(Collections.emptyList(), o);
+    o = null;
   }
 
   @Test
@@ -89,6 +97,9 @@ public class CollectionTest extends ConversionTestBase {
     assertEquals("foo", so.get("0"));
     o = null;
     runRuby("collection/ListApi", "add");
+    assertEquals(Collections.singletonList("foo"), o);
+    o = null;
+    runScala("collection/ListApi", "add");
     assertEquals(Collections.singletonList("foo"), o);
     o = null;
   }

@@ -166,7 +166,6 @@ public class ScalaCodeBuilder implements CodeBuilder {
         writer.append(":");
         writer.append(method.getValue().getSignature().getParameterTypes().get(i).getName());
       });
-
       writer.append(") = {\n");
       writer.indent();
       method.getValue().render(writer);

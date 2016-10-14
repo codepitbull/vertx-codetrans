@@ -8,15 +8,15 @@ object HandlerInvoker {
   def invokeStringHandler(handler:String => Unit) {
     handler("callback_value")
   }
-//
+
   def invokeStringHandlerFirstParam(handler:String => Unit, other: String) {
     handler(other)
   }
-//
-//  def invokeStringHandlerLastParam(String other, Handler<String> handler) {
-//    handler.handle(other);
-//  }
-//
+
+  def invokeStringHandlerLastParam(other: String, handler:String => Unit) {
+    handler(other)
+  }
+
   def invokeAsyncResultHandlerSuccess(f: PartialFunction[Try[String], Unit]) {
     f(Success("hello"))
   }

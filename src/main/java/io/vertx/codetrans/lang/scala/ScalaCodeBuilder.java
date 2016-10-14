@@ -37,7 +37,7 @@ public class ScalaCodeBuilder implements CodeBuilder {
   @Override
   public StatementModel variableDecl(VariableScope scope, TypeInfo type, String name, ExpressionModel initializer) {
     return StatementModel.render(renderer -> {
-      renderer.append("var ").append(name).append(':').append(type.getName());
+      renderer.append("var ").append(name);
       if (initializer != null) {
         renderer.append(" = ");
         initializer.render(renderer);
@@ -163,6 +163,8 @@ public class ScalaCodeBuilder implements CodeBuilder {
       IntStream.range(0, method.getValue().getParameterNames().size()).forEach(i -> {
         if (i > 0) writer.append(", ");
         writer.append(method.getValue().getParameterNames().get(i));
+        writer.append(":");
+        writer.append(method.getValue().getSignature().getParameterTypes().get(i).getName());
       });
 
       writer.append(") = {\n");
@@ -183,7 +185,7 @@ public class ScalaCodeBuilder implements CodeBuilder {
 
   private String removeThisIfStringRepresentsAScript(String ret) {
     if (!ret.contains("class")){
-      return ret.replace("this.","");
+      return ret.replace("this.","").replace("this","");
     }
     return ret;
   }

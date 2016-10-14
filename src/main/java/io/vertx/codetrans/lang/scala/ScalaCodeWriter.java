@@ -109,6 +109,7 @@ public class ScalaCodeWriter extends CodeWriter {
   @Override
   public void renderMethodReference(ExpressionModel expressionModel, MethodSignature methodSignature){
     expressionModel.render(this);
+    append('.');
     append(methodSignature.getName()).append(" _");
   }
 

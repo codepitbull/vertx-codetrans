@@ -5,14 +5,13 @@ import scala.util.{Failure, Success, Try}
 
 object HandlerInvoker {
 
-  def invokeStringHandler(f: PartialFunction[String, Unit]) {
-    println("WUUAUARGH")
-    f("callback_value")
+  def invokeStringHandler(handler:String => Unit) {
+    handler("callback_value")
   }
 //
-//  def invokeStringHandlerFirstParam(Handler<String> handler, String other) {
-//    handler.handle(other);
-//  }
+  def invokeStringHandlerFirstParam(handler:String => Unit, other: String) {
+    handler(other)
+  }
 //
 //  def invokeStringHandlerLastParam(String other, Handler<String> handler) {
 //    handler.handle(other);

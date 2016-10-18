@@ -34,6 +34,11 @@ public class ClassIdentifierExpressionTest extends ConversionTestBase {
     runGroovy("expression/ClassIdentifier", "invokeStaticMethod");
     Assert.assertEquals(1, invoked);
     Assert.assertEquals(Collections.<Object>singletonList("foo"), args);
+    invoked = 0;
+    args.clear();
+    runScala("expression/ClassIdentifier", "invokeStaticMethod");
+    Assert.assertEquals(1, invoked);
+    Assert.assertEquals(Collections.<Object>singletonList("foo"), args);
   }
 
   @Test
@@ -43,6 +48,9 @@ public class ClassIdentifierExpressionTest extends ConversionTestBase {
     Assert.assertEquals("foo", field);
     field = null;
     runGroovy("expression/ClassIdentifier", "accessStaticField");
+    Assert.assertEquals("foo", field);
+    field = null;
+    runScala("expression/ClassIdentifier", "accessStaticField");
     Assert.assertEquals("foo", field);
   }
 }

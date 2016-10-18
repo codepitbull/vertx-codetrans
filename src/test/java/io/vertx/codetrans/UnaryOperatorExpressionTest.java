@@ -53,6 +53,7 @@ public class UnaryOperatorExpressionTest extends ConversionTestBase {
     run(new RubyLang(), "expression/PostfixIncrement");
     assertEquals(4, ((Number) result).intValue()); // YEAH!
     assertEquals(4, ((Number) result2).intValue());
+    //There is no pre/postic increment in Scala
   }
 
   @Test
@@ -66,6 +67,7 @@ public class UnaryOperatorExpressionTest extends ConversionTestBase {
     run(new RubyLang(), "expression/PostfixDecrement");
     assertEquals(2, ((Number) result).intValue()); // YEAH
     assertEquals(2, ((Number) result2).intValue());
+    //There is no pre/postic decrement in Scala
   }
 
   @Test

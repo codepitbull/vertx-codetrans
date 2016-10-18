@@ -3,6 +3,7 @@ package io.vertx.codetrans;
 import io.vertx.codetrans.lang.groovy.GroovyLang;
 import io.vertx.codetrans.lang.js.JavaScriptLang;
 import io.vertx.codetrans.lang.ruby.RubyLang;
+import io.vertx.codetrans.lang.scala.ScalaLang;
 import org.jruby.embed.EvalFailedException;
 import org.junit.Test;
 
@@ -40,6 +41,11 @@ public class ThrowableTest extends ConversionTestBase {
       fail();
     } catch (EvalFailedException e) {
     }
+    try {
+      script(new ScalaLang(), "throwable/Throwable", "throwRuntimeExceptionNoArg").run();
+      fail();
+    } catch (RuntimeException e) {
+    }
   }
 
   @Test
@@ -60,6 +66,12 @@ public class ThrowableTest extends ConversionTestBase {
       script(new RubyLang(), "throwable/Throwable", "throwRuntimeExceptionStringArg").run();
       fail();
     } catch (EvalFailedException e) {
+      assertTrue(e.getMessage().contains("foobar"));
+    }
+    try {
+      script(new ScalaLang(), "throwable/Throwable", "throwRuntimeExceptionStringArg").run();
+      fail();
+    } catch (RuntimeException e) {
       assertTrue(e.getMessage().contains("foobar"));
     }
   }

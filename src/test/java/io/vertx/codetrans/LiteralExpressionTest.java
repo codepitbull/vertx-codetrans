@@ -226,13 +226,8 @@ public class LiteralExpressionTest extends ConversionTestBase {
 
   @Test
   public void testEnumConstantInString() {
-    runJavaScript("expression/LiteralEnum", "enumConstantInString");
-    assertEquals("->THE_CONSTANT<-", string);
-    runGroovy("expression/LiteralEnum", "enumConstantInString");
-    assertEquals("->THE_CONSTANT<-", string);
-    runRuby("expression/LiteralEnum", "enumConstantInString");
-    assertEquals("->THE_CONSTANT<-", string);
-    runScala("expression/LiteralEnum", "enumConstantInString");
-    assertEquals("->THE_CONSTANT<-", string);
+    runAll("expression/LiteralEnum", "enumConstantInString", () -> {
+      assertEquals("->THE_CONSTANT<-", string);
+    });
   }
 }

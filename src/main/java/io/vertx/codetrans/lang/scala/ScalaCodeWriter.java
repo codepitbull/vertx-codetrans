@@ -381,7 +381,7 @@ public class ScalaCodeWriter extends CodeWriter {
 
   @Override
   public void renderPrefixIncrement(ExpressionModel expression, CodeWriter writer){
-    renderPostfixDecrement(expression);
+    renderPostfixIncrement(expression);
   }
 
   @Override

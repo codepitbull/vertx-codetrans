@@ -5,6 +5,7 @@ import io.vertx.codetrans.lang.js.JavaScriptLang;
 import io.vertx.codetrans.lang.ruby.RubyLang;
 import io.vertx.codetrans.lang.scala.ScalaLang;
 import org.jruby.embed.EvalFailedException;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.script.ScriptException;
@@ -22,6 +23,14 @@ public class ThrowableTest extends ConversionTestBase {
   public static CustomException custom;
   public static Number test;
   public static Boolean bool;
+
+  @Before
+  public void before() {
+    t = null;
+    custom = null;
+    test = null;
+    bool = null;
+  }
 
   @Test
   public void testThrowRuntimeExceptionNoArg() throws Exception {

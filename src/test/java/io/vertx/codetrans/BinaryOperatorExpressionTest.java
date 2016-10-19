@@ -17,6 +17,7 @@ public class BinaryOperatorExpressionTest extends ConversionTestBase {
   @Before
   public void before() {
     result = null;
+    numResult = null;
   }
 
   @Test

@@ -3,7 +3,7 @@ package io.vertx.codetrans.lang.scala;
 import io.vertx.codetrans.CodeBuilder;
 import io.vertx.codetrans.Lang;
 import io.vertx.codetrans.Script;
-import io.vertx.scala.onthefly.OnTheFlyCompiler;
+import io.vertx.lang.scala.onthefly.OnTheFlyCompiler;
 
 import java.io.File;
 import java.util.Map;
@@ -33,10 +33,6 @@ public class ScalaLang implements Lang {
 
       @Override
       public void run(Map<String, Object> globals) throws Exception {
-        System.out.println("<globals>");
-        globals.forEach((a,b) -> System.out.println(a+":"+b));
-        System.out.println("</globals>");
-        System.out.println("<source>"+source+"</source>");
         new OnTheFlyCompiler(nopath).eval(source);
       }
     };

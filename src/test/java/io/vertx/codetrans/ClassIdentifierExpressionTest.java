@@ -1,6 +1,7 @@
 package io.vertx.codetrans;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -20,6 +21,13 @@ public class ClassIdentifierExpressionTest extends ConversionTestBase {
   }
   public static void arg(Object o) {
     args.add(o);
+  }
+
+  @Before
+  public void before() {
+    invoked = 0;
+    args.clear();
+    field = null;
   }
 
   @Test

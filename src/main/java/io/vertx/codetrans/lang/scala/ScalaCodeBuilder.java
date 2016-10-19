@@ -184,7 +184,7 @@ public class ScalaCodeBuilder implements CodeBuilder {
 
   private String removeThisIfStringRepresentsAScript(String ret) {
     if (!ret.contains("class")){
-      return ret.replace("this.","").replace("this","");
+      return ret.replace("this.","");
     }
     return ret;
   }
